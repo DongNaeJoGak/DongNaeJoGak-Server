@@ -1,12 +1,12 @@
 package com.example.DongNaeJoGak.domain.idea.entity;
 
 import com.example.DongNaeJoGak.domain.comment.entity.Comment;
+import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaStatus;
 import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity

@@ -1,5 +1,6 @@
 package com.example.DongNaeJoGak.domain.comment.entity;
 
+import com.example.DongNaeJoGak.domain.comment.entity.enums.CommentReportType;
 import com.example.DongNaeJoGak.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;

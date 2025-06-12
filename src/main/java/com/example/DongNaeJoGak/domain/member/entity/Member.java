@@ -2,6 +2,7 @@ package com.example.DongNaeJoGak.domain.member.entity;
 
 import com.example.DongNaeJoGak.domain.comment.entity.Comment;
 import com.example.DongNaeJoGak.domain.idea.entity.Idea;
+import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
 import jakarta.persistence.*;
 import lombok.*;
 

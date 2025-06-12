@@ -1,5 +1,6 @@
 package com.example.DongNaeJoGak.domain.idea.entity;
 
+import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
 import com.example.DongNaeJoGak.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
