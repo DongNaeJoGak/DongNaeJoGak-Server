@@ -27,17 +27,17 @@ public class Idea extends BaseEntity {
 
     private Double latitude;
 
-    private Double longtitude;
+    private Double longitude;
 
     private String title;
 
     private String content;
 
-    private String image;
+    private String imageUrl;
 
-    private Long ideaLikeNum = 0L;
+    private Long likeNum = 0L;
 
-    private Long ideaDisLikeNum = 0L;
+    private Long dislikeNum = 0L;
 
     @Column(name = "idea_status")
     private IdeaStatus status;
