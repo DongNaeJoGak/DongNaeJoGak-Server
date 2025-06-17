@@ -17,7 +17,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 컨트롤러 메서드에서 @Valid 어노테이션을 사용하여 DTO의 유효성 검사를 수행
+    // 컨트롤러에서 @Valid 붙은 dto에서 유효성 검사 실패할 때
+    // 주로 길이 제한, null 체크
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex) {
@@ -27,13 +28,14 @@ public class GlobalExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage())
         );
 
+        // 클라이언트에 (에러코드 + 메시지) 응답
         BaseErrorCode validationErrorCode = ErrorStatus._VALIDATION_FAILED; // BaseErrorCode로 통일
         ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(
                 validationErrorCode.getCode(),
                 validationErrorCode.getMessage(),
                 errors
         );
-        // 에러 코드, 메시지와 함께 errors를 반환
+
         return ResponseEntity.status(validationErrorCode.getHttpStatus()).body(errorResponse);
     }
 
