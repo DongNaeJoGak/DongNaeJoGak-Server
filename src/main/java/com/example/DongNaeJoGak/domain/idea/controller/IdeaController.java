@@ -22,20 +22,29 @@ public class IdeaController {
         return ApiResponse.onSuccess(createIdeaResponse);
     }
 
-//    @GetMapping("/api/ideas/{ideaId}")
-//    public ApiResponse<IdeaResponseDTO.DetailIdeaResponse> getIdea(@PathVariable Long ideaId) {
-//
-//    }
-//
-//    @GetMapping("/api/ideas")
-//    public ApiResponse<IdeaResponseDTO.ListIdeaResponse> getIdeas(@RequestParam Double latitude, @RequestParam Double longitude) {
-//
-//    }
-//
-//
-//    @GetMapping("/api/ideas/{ideaId}/nearby")
-//    public ApiResponse<IdeaResponseDTO.ListIdeaResponse> getNearbyIdeas(@RequestParam Long cursor, @RequestParam Long size,
-//                                                                        @PathVariable Long ideaId) {
-//
-//    }
+    @GetMapping("/api/ideas/{ideaId}")
+    public ApiResponse<IdeaResponseDTO.DetailIdeaResponse> getIdea(@PathVariable Long ideaId) {
+
+        IdeaResponseDTO.DetailIdeaResponse getDetailIdeaResponse = ideaService.getDetailIdea(ideaId);
+
+        return ApiResponse.onSuccess(getDetailIdeaResponse);
+    }
+
+    @GetMapping("/api/ideas")
+    public ApiResponse<IdeaResponseDTO.ListIdeaResponse> getIdeasInMap(@RequestParam Double latitude, @RequestParam Double longitude) {
+
+        IdeaResponseDTO.ListIdeaResponse getIdeasInMapResponse = ideaService.getIdeasInMap(latitude, longitude);
+
+        return ApiResponse.onSuccess(getIdeasInMapResponse);
+    }
+
+
+    @GetMapping("/api/ideas/{ideaId}/nearby")
+    public ApiResponse<IdeaResponseDTO.ListIdeaResponse> getNearbyIdeas(@RequestParam Long cursor, @RequestParam Integer size,
+                                                                        @PathVariable Long ideaId) {
+
+        IdeaResponseDTO.ListIdeaResponse getNearbyIdeas = ideaService.getNearbyIdeas(cursor, size, ideaId);
+
+        return ApiResponse.onSuccess(getNearbyIdeas);
+    }
 }

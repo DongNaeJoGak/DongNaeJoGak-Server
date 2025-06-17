@@ -29,14 +29,14 @@ public class IdeaResponseDTO {
         private Long cursor;
         private Boolean hasNext;
 
-//        public static ListIdeaResponse toListIdeaResponse(Slice<Idea> ideas) {
-//            List<Idea> ideaList = ideas.getContent();
-//            return ListIdeaResponse.builder()
-//                    .ideas(ideaList.stream().map(DetailIdeaResponse::toDetailIdeaResponse).toList())
-//                    .cursor(ideas.hasNext() ? ideaList.get(ideaList.size()) - 1).getId : null)
-//                    .hasNext(ideas.hasNext())
-//                    .build();
-//        }
+        public static ListIdeaResponse toListIdeaResponse(Slice<Idea> ideaSlice) {
+            List<Idea> ideaList = ideaSlice.getContent();
+            return ListIdeaResponse.builder()
+                    .ideas(ideaList.stream().map(DetailIdeaResponse::toDetailIdeaResponse).toList())
+                    .cursor(ideaSlice.hasNext() ? ideaList.get(ideaList.size() - 1).getId() : null)
+                    .hasNext(ideaSlice.hasNext())
+                    .build();
+        }
     }
 
     @Getter
@@ -51,18 +51,18 @@ public class IdeaResponseDTO {
         private IdeaStatus status;
         private Long likeNum;
         private Long dislikeNum;
-    }
 
-    public static DetailIdeaResponse toDetailIdeaResponse(Idea idea) {
-        return DetailIdeaResponse.builder()
-                .ideaId(idea.getId())
-                .latitude(idea.getLatitude())
-                .longitude(idea.getLongitude())
-                .title(idea.getTitle())
-                .content(idea.getContent())
-                .imageUrl(idea.getImageUrl())
-                .likeNum(idea.getLikeNum())
-                .dislikeNum(idea.getDislikeNum())
-                .build();
+        public static DetailIdeaResponse toDetailIdeaResponse(Idea idea) {
+            return DetailIdeaResponse.builder()
+                    .ideaId(idea.getId())
+                    .latitude(idea.getLatitude())
+                    .longitude(idea.getLongitude())
+                    .title(idea.getTitle())
+                    .content(idea.getContent())
+                    .imageUrl(idea.getImageUrl())
+                    .likeNum(idea.getLikeNum())
+                    .dislikeNum(idea.getDislikeNum())
+                    .build();
+        }
     }
 }
