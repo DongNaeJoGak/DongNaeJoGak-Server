@@ -43,4 +43,13 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Comment> commentList = new ArrayList<>();
 
+    // 댓글 숨김 처리한 후에도 대댓글은 계속 보여줄 수 있음
+    public void softDelete(LocalDateTime deletedTime) {
+        this.deletedAt = deletedTime;
+    }
+
+    // 신고 수 파악
+    public void addReport() {
+        this.commentReportNum += 1;
+    }
 }
