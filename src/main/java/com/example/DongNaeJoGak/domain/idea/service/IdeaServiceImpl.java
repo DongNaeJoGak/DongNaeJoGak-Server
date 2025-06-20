@@ -43,8 +43,11 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public IdeaResponseDTO.ListIdeaResponse getIdeasInMap(Double latitude, Double longitude) {
-        Slice<Idea> ideas = ideaRepository.findIdeasInMap(latitude, longitude);
+    public IdeaResponseDTO.ListIdeaResponse getIdeasInMap(Double leftLat, Double leftLong, Double rightLat, Double rightLong) {
+        Slice<Idea> ideas = ideaRepository.findByLatitudeBetweenAndLongitudeBetween(
+                Math.min(leftLat, rightLat), Math.max(leftLat, rightLat),
+                Math.min(leftLong, rightLong), Math.max(leftLong, rightLong)
+        );
         return IdeaResponseDTO.ListIdeaResponse.toListIdeaResponse(ideas);
     }
 
