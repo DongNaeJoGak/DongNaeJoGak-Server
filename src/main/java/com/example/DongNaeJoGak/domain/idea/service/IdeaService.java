@@ -9,7 +9,7 @@ public interface IdeaService {
 
     IdeaResponseDTO.DetailIdeaResponse getDetailIdea(Long ideaId);
 
-    IdeaResponseDTO.ListIdeaResponse getIdeasInMap(Double latitude, Double longitude);
+    IdeaResponseDTO.ListIdeaResponse getIdeasInMap(Double leftLat, Double leftLong, Double rightLat, Double rightLong);
 
     IdeaResponseDTO.ListIdeaResponse getNearbyIdeas(Long cursor, Integer size, Long ideaId);
 }

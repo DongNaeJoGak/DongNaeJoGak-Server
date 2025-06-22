@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface IdeaRepository extends JpaRepository<Idea, Long> {
 
-    Slice<Idea> findIdeasInMap(Double lat, Double lon);
+    Slice<Idea> findByLatitudeBetweenAndLongitudeBetween(Double latMin, Double latMax, Double lonMin, Double lonMax);
     Slice<Idea> findNearbyIdeas(Double lat, Double lon, Long cursor, Pageable pageable);
 }
