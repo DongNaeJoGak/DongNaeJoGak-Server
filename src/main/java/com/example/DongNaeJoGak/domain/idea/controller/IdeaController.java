@@ -31,9 +31,12 @@ public class IdeaController {
     }
 
     @GetMapping("/api/ideas")
-    public ApiResponse<IdeaResponseDTO.ListIdeaResponse> getIdeasInMap(@RequestParam Double latitude, @RequestParam Double longitude) {
+    public ApiResponse<IdeaResponseDTO.ListIdeaResponse> getIdeasInMap(@RequestParam Double leftLat,
+                                                                       @RequestParam Double leftLong,
+                                                                       @RequestParam Double rightLat,
+                                                                       @RequestParam Double rightLong) {
 
-        IdeaResponseDTO.ListIdeaResponse getIdeasInMapResponse = ideaService.getIdeasInMap(latitude, longitude);
+        IdeaResponseDTO.ListIdeaResponse getIdeasInMapResponse = ideaService.getIdeasInMap(leftLat, leftLong, rightLat, rightLong);
 
         return ApiResponse.onSuccess(getIdeasInMapResponse);
     }
