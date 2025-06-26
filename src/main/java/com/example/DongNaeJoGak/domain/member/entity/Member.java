@@ -27,6 +27,9 @@ public class Member {
     @Column(name = "provider_type", nullable = false)
     private ProviderType providerType;
 
+    @Column(name = "provider_id", nullable = false)
+    private String providerId;
+
     @Column(name = "profileImage_url", nullable = false)
     private String profileImage;
 
