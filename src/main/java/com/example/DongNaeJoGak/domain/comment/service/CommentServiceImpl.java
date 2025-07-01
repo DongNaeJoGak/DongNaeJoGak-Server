@@ -9,7 +9,9 @@ import com.example.DongNaeJoGak.domain.idea.entity.Idea;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaRepository;
 import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
-import com.example.DongNaeJoGak.global.apiPayload.exception.GeneralException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.CommentException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.IdeaException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.MemberException;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.CommentErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.IdeaErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.MemberErrorStatus;
@@ -31,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     // 현재 로그인한 유저 (임시)
     private Member getCurrentMember() {
         return memberRepository.findById(1L) // 임시 고정
-                .orElseThrow(() -> new GeneralException(MemberErrorStatus.NOT_FOUND));
+                .orElseThrow(() -> new MemberException(MemberErrorStatus.NOT_FOUND));
     }
 
     // 댓글 생성
@@ -39,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     public CreateCommentResponse createComment(Long ideaId, CreateCommentRequest request) {
         Member member = getCurrentMember();
         Idea idea = ideaRepository.findById(ideaId)
-                .orElseThrow(() -> new GeneralException(IdeaErrorStatus.NOT_FOUND));
+                .orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
 
         Comment comment = Comment.builder()
                 .content(request.getContent())
@@ -56,10 +58,10 @@ public class CommentServiceImpl implements CommentService {
     public CreateCommentResponse createReply(Long ideaId, Long parentId, CreateReplyRequest request) {
         Member member = getCurrentMember();
         Idea idea = ideaRepository.findById(ideaId)
-                .orElseThrow(() -> new GeneralException(IdeaErrorStatus.NOT_FOUND));
+                .orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
 
         Comment parent = commentRepository.findById(parentId)
-                .orElseThrow(() -> new GeneralException(CommentErrorStatus.INVALID_PARENT));
+                .orElseThrow(() -> new CommentException(CommentErrorStatus.INVALID_PARENT));
 
         Comment reply = Comment.builder()
                 .content(request.getContent())
@@ -83,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new GeneralException(CommentErrorStatus.NOT_FOUND));
+                .orElseThrow(() -> new CommentException(CommentErrorStatus.NOT_FOUND));
 
         comment.softDelete(LocalDateTime.now());
         commentRepository.save(comment);

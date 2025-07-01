@@ -10,7 +10,8 @@ import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.CommentErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.MemberErrorStatus;
-import com.example.DongNaeJoGak.global.apiPayload.exception.GeneralException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.CommentException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,25 +25,25 @@ public class CommentReportServiceImpl implements CommentReportService {
 
     // 임시 로그인 멤버 (1L 고정)
     private Member getCurrentMember() {
-        return memberRepository.findById(1L) // 테스트용으로 1L 고정
-                .orElseThrow(() -> new GeneralException(MemberErrorStatus.NOT_FOUND));
+        return memberRepository.findById(1L)
+                .orElseThrow(() -> new MemberException(MemberErrorStatus.NOT_FOUND));
     }
 
     @Override
     public CommentReportResponseDTO reportComment(Long commentId, CommentReportRequestDTO request) {
-        Member reporter = getCurrentMember(); // 나중에 Security에서 받아오도록 수정 필요
+        Member reporter = getCurrentMember();
 
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new GeneralException(CommentErrorStatus.NOT_FOUND));
+                .orElseThrow(() -> new CommentException(CommentErrorStatus.NOT_FOUND));
 
         // 자신이 작성한 댓글을 신고할 수 없음
         if (comment.getMember().getId().equals(reporter.getId())) {
-            throw new GeneralException(CommentErrorStatus.SELF_REPORT);
+            throw new CommentException(CommentErrorStatus.SELF_REPORT);
         }
 
         // 이미 신고했는지 확인
         if (commentReportRepository.existsByMemberAndComment(reporter, comment)) {
-            throw new GeneralException(CommentErrorStatus.ALREADY_REPORTED);
+            throw new CommentException(CommentErrorStatus.ALREADY_REPORTED);
         }
 
         // 신고 저장
