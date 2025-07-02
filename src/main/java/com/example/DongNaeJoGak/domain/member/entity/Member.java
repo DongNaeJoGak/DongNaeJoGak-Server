@@ -24,6 +24,9 @@ public class Member {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "provider_type", nullable = false)
     private ProviderType providerType;
 
@@ -38,4 +41,10 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+
+    public void updateInfo(String username, String profileImage) {
+        this.username = username;
+        this.profileImage = profileImage;
+    }
 }
