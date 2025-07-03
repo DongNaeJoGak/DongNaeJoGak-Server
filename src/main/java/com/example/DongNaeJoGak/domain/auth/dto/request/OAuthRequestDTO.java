@@ -1,13 +1,13 @@
 package com.example.DongNaeJoGak.domain.auth.dto.request;
 
 import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import lombok.Builder;
 import lombok.Getter;
 
-public class AuthRequestDTO {
+public class OAuthRequestDTO {
 
     @Getter
+    @Builder
     public static class LoginRequest {
         private ProviderType providerType;
         private String providerId;

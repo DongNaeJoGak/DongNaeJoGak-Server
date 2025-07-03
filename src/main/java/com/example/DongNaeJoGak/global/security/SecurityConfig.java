@@ -18,8 +18,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/api/auth/google",  //카카오 소셜로그인
-            "/api/auth/naver",  //네이버 소셜로그인
+            "/api/auth/kakao",  //카카오 소셜로그인
+            "/api/auth/naver",  // 네이버 소셜로그인
             "/api/auth/reissue", //토큰 재발급은 인증이 필요하지 않음
             "/auth/**",
     };

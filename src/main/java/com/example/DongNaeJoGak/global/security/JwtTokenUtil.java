@@ -3,11 +3,9 @@ package com.example.DongNaeJoGak.global.security;
 import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.TokenErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.TokenException;
+import com.example.DongNaeJoGak.global.security.data.JwtConfigData;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.MappingMatch;
-import lombok.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
