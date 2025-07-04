@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
-// application.yml에서 jwt 관련 설정값을 읽어오는 클래스
+// application.yml 에서 jwt 관련 설정값을 읽어오는 클래스
 public class JwtConfigData {
     private String secret;
     private JwtTime time;

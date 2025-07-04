@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "")
+@ConfigurationProperties(prefix = "naver")
 // application.yml에서 설정값을 가져와서 사용
-public class KakaoOAuth2ConfigData {
+public class NaverOAuth2ConfigData {
     private String clientId;
     private String redirectUri;
     private String authorizationUri;
