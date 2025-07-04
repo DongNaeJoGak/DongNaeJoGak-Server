@@ -12,7 +12,6 @@ public class NaverOAuth2DTO {
         String refresh_token;
         Long expires_in;
         Long refresh_token_expires_in;
-        String scope;
     }
 
     @Getter

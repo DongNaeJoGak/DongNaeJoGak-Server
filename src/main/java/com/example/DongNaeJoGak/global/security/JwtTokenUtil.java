@@ -22,6 +22,10 @@ public class JwtTokenUtil {
     private final Duration refreshTokenExpiration;
 
     public JwtTokenUtil(JwtConfigData jwtConfigData) {
+        if (jwtConfigData.getTime() == null) {
+            throw new IllegalArgumentException("JwtConfigData.time is null. Check your application.yml config.");
+        }
+
         this.secretKey = Keys.hmacShaKeyFor(jwtConfigData.getSecret().getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpiration = Duration.ofMillis(jwtConfigData.getTime().getAccessToken());
         this.refreshTokenExpiration = Duration.ofMillis(jwtConfigData.getTime().getRefreshToken());

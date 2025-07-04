@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "jwt")
 // application.yml 에서 jwt 관련 설정값을 읽어오는 클래스
 public class JwtConfigData {
