@@ -33,6 +33,7 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/api/oauth2/**",
+            "/login/oauth2/code/naver"
     };
 
     @Bean
@@ -48,7 +49,6 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)  // 먼저 인증 필터
                 .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class)  // 그 다음 예외 필터
-                .oauth2Login(Customizer.withDefaults())
 
 
         ;

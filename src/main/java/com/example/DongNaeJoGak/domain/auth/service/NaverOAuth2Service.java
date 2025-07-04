@@ -28,7 +28,7 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
     }
 
     @Override
-    protected String getAccessToken(String code) {
+    public String getAccessToken(String code) {
         // 인가코드 토큰 가져오기
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -38,6 +38,7 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "authorization_code");
         map.add("client_id", naverOAuth2ConfigData.getClientId());
+        map.add("client_secret", naverOAuth2ConfigData.getClientSecret());
         map.add("redirect_uri", naverOAuth2ConfigData.getRedirectUri());
         map.add("code", code);
         HttpEntity<MultiValueMap> request = new HttpEntity<>(map, httpHeaders);
@@ -47,6 +48,9 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
                 HttpMethod.POST,
                 request,
                 String.class);
+
+
+        System.out.println("Naver 응답 본문: " + response1.getBody());
 
         ObjectMapper objectMapper = new ObjectMapper();
         NaverOAuth2DTO.OAuth2TokenDTO oAuth2TokenDTO = null;
