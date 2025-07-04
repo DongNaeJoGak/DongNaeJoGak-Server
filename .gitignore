@@ -36,3 +36,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# 로컬 설정
+src/main/resources/application.yml
