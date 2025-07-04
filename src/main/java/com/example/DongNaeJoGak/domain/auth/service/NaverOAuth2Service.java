@@ -63,10 +63,10 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
     protected OAuthRequestDTO.LoginRequest getUserInfo(String token) {
         NaverOAuth2DTO.NaverProfile naverProfile = getNaverProfile(token);
         return OAuthRequestDTO.LoginRequest.builder()
-                .providerId(String.valueOf(naverProfile.getId()))
-                .username(naverProfile.getProperties().getNickname())
-                .image(naverProfile.getProperties().getProfile_image())
-                .providerType(ProviderType.KAKAO)
+                .providerId(String.valueOf(naverProfile.getResponse().getId()))
+                .username(naverProfile.getResponse().getNickname())
+                .image(naverProfile.getResponse().getProfile_image())
+                .providerType(ProviderType.NAVER)
                 .build();
     }
 

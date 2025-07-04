@@ -1,5 +1,5 @@
 package com.example.DongNaeJoGak.domain.member.entity.enums;
 
 public enum ProviderType {
-    KAKAO, GOOGLE
+    NAVER, GOOGLE
 }

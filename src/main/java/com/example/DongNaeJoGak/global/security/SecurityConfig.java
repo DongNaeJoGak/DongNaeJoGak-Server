@@ -47,8 +47,9 @@ public class SecurityConfig {
                         .requestMatchers(allowedUrls).permitAll()        // 위에 정의한 allowedUrls는 인증 필요 없음
                         .anyRequest().permitAll()                        // 그 외는 인증 필요
                 )
-                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class) // 먼저 예외 필터
-                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); // 그 다음 인증 필터
+                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)  // 먼저 인증 필터
+                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class);  // 그 다음 예외 필터
+
         ;
 
         return http.build();

@@ -53,16 +53,23 @@ public class IdeaServiceImpl implements IdeaService {
 
     @Override
     public IdeaResponseDTO.ListIdeaResponse getNearbyIdeas(Long cursor, Integer size, Long ideaId) {
-        Idea currentIdea = ideaRepository.findById(ideaId).orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
+        Idea currentIdea = ideaRepository.findById(ideaId)
+                .orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
 
-        Double currentIdeaLat = currentIdea.getLatitude();
-        Double currentIdeaLong = currentIdea.getLongitude();
+        Double lat = currentIdea.getLatitude();
+        Double lon = currentIdea.getLongitude();
+
+        double range = 0.1; // 반경은 필요에 따라 조절
+
+        Double latMin = lat - range;
+        Double latMax = lat + range;
+        Double lonMin = lon - range;
+        Double lonMax = lon + range;
 
         Pageable pageable = PageRequest.of(0, size);
 
-        Slice<Idea> ideaSlice = ideaRepository.findNearbyIdeas(currentIdeaLat, currentIdeaLong, cursor, pageable);
+        Slice<Idea> ideaSlice = ideaRepository.findNearbyIdeas(latMin, latMax, lonMin, lonMax, cursor, pageable);
 
         return IdeaResponseDTO.ListIdeaResponse.toListIdeaResponse(ideaSlice);
-
     }
 }

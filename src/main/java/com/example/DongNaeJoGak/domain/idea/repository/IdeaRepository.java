@@ -10,5 +10,20 @@ import org.springframework.data.repository.query.Param;
 public interface IdeaRepository extends JpaRepository<Idea, Long> {
 
     Slice<Idea> findByLatitudeBetweenAndLongitudeBetween(Double latMin, Double latMax, Double lonMin, Double lonMax);
-    Slice<Idea> findNearbyIdeas(Double lat, Double lon, Long cursor, Pageable pageable);
+
+    @Query("""
+        SELECT i FROM Idea i
+        WHERE i.latitude BETWEEN :latMin AND :latMax
+          AND i.longitude BETWEEN :lonMin AND :lonMax
+          AND i.id < :cursor
+        ORDER BY i.id DESC
+    """)
+    Slice<Idea> findNearbyIdeas(
+            @Param("latMin") Double latMin,
+            @Param("latMax") Double latMax,
+            @Param("lonMin") Double lonMin,
+            @Param("lonMax") Double lonMax,
+            @Param("cursor") Long cursor,
+            Pageable pageable
+    );
 }
