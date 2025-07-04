@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.logging.Filter;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 

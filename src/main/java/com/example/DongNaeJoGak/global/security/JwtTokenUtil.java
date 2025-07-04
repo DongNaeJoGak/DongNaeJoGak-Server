@@ -6,10 +6,15 @@ import com.example.DongNaeJoGak.global.apiPayload.exception.TokenException;
 import com.example.DongNaeJoGak.global.security.data.JwtConfigData;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -18,26 +23,22 @@ import java.util.Date;
 public class JwtTokenUtil {
 
     private final SecretKey secretKey;
-    private final Duration accessTokenExpiration;
-    private final Duration refreshTokenExpiration;
+    private final Duration accessExpiration;
+    private final Duration refreshExpiration;
 
     public JwtTokenUtil(JwtConfigData jwtConfigData) {
-        if (jwtConfigData.getTime() == null) {
-            throw new IllegalArgumentException("JwtConfigData.time is null. Check your application.yml config.");
-        }
-
         this.secretKey = Keys.hmacShaKeyFor(jwtConfigData.getSecret().getBytes(StandardCharsets.UTF_8));
-        this.accessTokenExpiration = Duration.ofMillis(jwtConfigData.getTime().getAccessToken());
-        this.refreshTokenExpiration = Duration.ofMillis(jwtConfigData.getTime().getRefreshToken());
+        this.accessExpiration = Duration.ofMillis(jwtConfigData.getTime().getAccess());
+        this.refreshExpiration = Duration.ofMillis(jwtConfigData.getTime().getRefresh());
     }
 
     // 토큰 생성
     public String createAccessToken(Member member) {
-        return createToken(member, accessTokenExpiration);
+        return createToken(member, accessExpiration);
     }
 
     public String createRefreshToken(Member member) {
-        return createToken(member, refreshTokenExpiration);
+        return createToken(member, refreshExpiration);
     }
 
     private String createToken(Member member, Duration expiration) {
@@ -79,9 +80,6 @@ public class JwtTokenUtil {
                 .build()
                 .parseSignedClaims(token);          // 서명 검증 후 파싱
     }
-
-
-
 
 
 }
