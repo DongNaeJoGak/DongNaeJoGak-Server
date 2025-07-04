@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,9 +19,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
-import java.util.logging.Filter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -42,13 +41,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic((AbstractHttpConfigurer::disable))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(allowedUrls).permitAll()        // 위에 정의한 allowedUrls는 인증 필요 없음
-                        .anyRequest().permitAll()                        // 그 외는 인증 필요
+                        .anyRequest().authenticated()                        // 그 외는 인증 필요
                 )
                 .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)  // 먼저 인증 필터
-                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class);  // 그 다음 예외 필터
+                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class)  // 그 다음 예외 필터
+                .oauth2Login(Customizer.withDefaults())
+
 
         ;
 
