@@ -1,5 +1,6 @@
 package com.example.DongNaeJoGak.domain.comment.controller;
 
+import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.comment.dto.request.CommentReportRequestDTO;
 import com.example.DongNaeJoGak.domain.comment.dto.request.CommentRequestDTO.CreateCommentRequest;
 import com.example.DongNaeJoGak.domain.comment.dto.request.CommentRequestDTO.CreateReplyRequest;
@@ -7,6 +8,7 @@ import com.example.DongNaeJoGak.domain.comment.dto.response.CommentReportRespons
 import com.example.DongNaeJoGak.domain.comment.dto.response.CommentResponseDTO.*;
 import com.example.DongNaeJoGak.domain.comment.service.CommentReportService;
 import com.example.DongNaeJoGak.domain.comment.service.CommentService;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ public class CommentController {
     // 댓글 생성
     @PostMapping
     public ApiResponse<CreateCommentResponse> createComment(
+            @AuthenticatedMember Member member,
             @PathVariable Long ideaId,
             @RequestBody CreateCommentRequest request
     ) {
@@ -33,6 +36,7 @@ public class CommentController {
     // 대댓글 생성
     @PostMapping("/{parentId}/replies")
     public ApiResponse<CreateCommentResponse> createReply(
+            @AuthenticatedMember Member member,
             @PathVariable Long ideaId,
             @PathVariable Long parentId,
             @RequestBody CreateReplyRequest request
@@ -54,6 +58,7 @@ public class CommentController {
     // 댓글 삭제
     @DeleteMapping("/{commentId}")
     public ApiResponse<Void> deleteComment(
+            @AuthenticatedMember Member member,
             @PathVariable Long commentId
     ) {
         commentService.deleteComment(commentId);
@@ -63,6 +68,7 @@ public class CommentController {
     // 댓글 신고
     @PostMapping("/{commentId}/report")
     public ApiResponse<CommentReportResponseDTO> reportComment(
+            @AuthenticatedMember Member member,
             @PathVariable Long commentId,
             @RequestBody CommentReportRequestDTO request
     ) {

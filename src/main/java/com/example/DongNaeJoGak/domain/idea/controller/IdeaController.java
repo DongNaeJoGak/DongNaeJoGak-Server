@@ -50,4 +50,6 @@ public class IdeaController {
 
         return ApiResponse.onSuccess(getNearbyIdeas);
     }
+
+    @PatchMapping
 }
