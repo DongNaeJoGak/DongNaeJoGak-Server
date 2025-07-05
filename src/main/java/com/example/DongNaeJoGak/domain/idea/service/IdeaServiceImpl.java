@@ -3,7 +3,11 @@ package com.example.DongNaeJoGak.domain.idea.service;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
 import com.example.DongNaeJoGak.domain.idea.entity.Idea;
+import com.example.DongNaeJoGak.domain.idea.entity.IdeaReaction;
+import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
+import com.example.DongNaeJoGak.domain.idea.repository.IdeaReactionRepository;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaRepository;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.IdeaErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.IdeaException;
 import jakarta.persistence.Id;
@@ -21,6 +25,7 @@ import java.util.List;
 public class IdeaServiceImpl implements IdeaService {
 
     private final IdeaRepository ideaRepository;
+    private final IdeaReactionRepository ideaReactionRepository;
 
     @Override
     public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request) {
@@ -72,4 +77,33 @@ public class IdeaServiceImpl implements IdeaService {
 
         return IdeaResponseDTO.ListIdeaResponse.toListIdeaResponse(ideaSlice);
     }
+
+    @Override
+    public void reactIdea(Long ideaId, IdeaReactionType ideaReactionType, Member member) {
+        Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
+
+        IdeaReaction existingReaction = ideaReactionRepository.findByIdeaAndMember(idea, member);
+
+        if (existingReaction != null) {
+            if (existingReaction.getReactionType() == ideaReactionType) {
+                // 동일한 반응을 또 누르면 반응 취소
+                ideaReactionRepository.delete(existingReaction);
+                return;
+            } else {
+                // 다른 반응을 누르면 기존 반응 삭제 , 새로운 반응 저장
+                ideaReactionRepository.delete(existingReaction);
+            }
+        }
+
+        // 새로운 반응 저장
+        IdeaReaction newReaction = IdeaReaction.builder()
+                .idea(idea)
+                .member(member)
+                .reactionType(ideaReactionType)
+                .build();
+
+        ideaReactionRepository.save(newReaction);
+    }
+
+
 }
