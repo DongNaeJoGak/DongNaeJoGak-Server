@@ -52,8 +52,6 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
                 String.class);
 
 
-        System.out.println("Naver 응답 본문: " + response1.getBody());
-
         ObjectMapper objectMapper = new ObjectMapper();
         NaverOAuth2DTO.OAuth2TokenDTO oAuth2TokenDTO = null;
 

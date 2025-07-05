@@ -12,15 +12,6 @@ public class OAuthResponseDTO {
     public static class LoginResponse {
         private String accessToken;
         private String refreshToken;
-        private LoginUserInfo userInfo;
-
-        @Getter
-        @Builder
-        public static class LoginUserInfo {
-            private Long userId;
-            private String username;
-            private String image;
-        }
 
         public static LoginResponse toLoginResponse(String accessToken, String refreshToken) {
             return LoginResponse.builder()
