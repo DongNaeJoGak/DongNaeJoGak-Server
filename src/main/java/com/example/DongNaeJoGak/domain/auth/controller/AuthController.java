@@ -12,7 +12,6 @@ import com.example.DongNaeJoGak.global.security.data.NaverOAuth2ConfigData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,6 @@ import java.security.SecureRandom;
 public class AuthController {
 
     private final AuthService authService;
-    private final NaverOAuth2Service naverOAuth2Service;
     private final NaverOAuth2ConfigData naverOAuth2ConfigData;
 
     @GetMapping("/oauth2/authorize/naver")
