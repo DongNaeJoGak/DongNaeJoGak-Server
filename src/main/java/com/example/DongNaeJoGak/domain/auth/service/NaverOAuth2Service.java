@@ -12,12 +12,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-@Service("naver")
+@Service("NAVER")
 public class NaverOAuth2Service extends AbstractOAuth2Service {
 
     private final NaverOAuth2ConfigData naverOAuth2ConfigData;
@@ -28,7 +29,7 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
     }
 
     @Override
-    public String getAccessToken(String code) {
+    public String getAccessToken(String code, String state) {
         // 인가코드 토큰 가져오기
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -41,6 +42,7 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
         map.add("client_secret", naverOAuth2ConfigData.getClientSecret());
         map.add("redirect_uri", naverOAuth2ConfigData.getRedirectUri());
         map.add("code", code);
+        map.add("state", state);
         HttpEntity<MultiValueMap> request = new HttpEntity<>(map, httpHeaders);
 
         ResponseEntity<String> response1 = restTemplate.exchange(
@@ -68,7 +70,8 @@ public class NaverOAuth2Service extends AbstractOAuth2Service {
         NaverOAuth2DTO.NaverProfile naverProfile = getNaverProfile(token);
         return OAuthRequestDTO.LoginRequest.builder()
                 .providerId(String.valueOf(naverProfile.getResponse().getId()))
-                .username(naverProfile.getResponse().getNickname())
+                .username(naverProfile.getResponse().getName())
+                .email(naverProfile.getResponse().getEmail())
                 .image(naverProfile.getResponse().getProfile_image())
                 .providerType(ProviderType.NAVER)
                 .build();

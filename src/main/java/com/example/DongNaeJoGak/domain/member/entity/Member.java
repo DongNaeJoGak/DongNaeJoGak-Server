@@ -24,16 +24,17 @@ public class Member {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "provider_type", nullable = false)
     private ProviderType providerType;
 
     @Column(name = "provider_id", nullable = false)
     private String providerId;
 
-    @Column(name = "profileImage_url", nullable = false)
+    @Column(name = "profile_image_url", nullable = false)
     private String profileImage;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

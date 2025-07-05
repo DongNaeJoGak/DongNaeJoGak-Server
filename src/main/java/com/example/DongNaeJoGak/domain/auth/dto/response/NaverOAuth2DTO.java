@@ -29,9 +29,19 @@ public class NaverOAuth2DTO {
             private String age;
             private String gender;
             private String birthday;
-            private String birthyear;
-            private String mobile;
         }
 
+    }
+
+    @Getter
+    public static class NaverTokenResponse {
+        private String code;
+        private String state;
+
+        public NaverTokenResponse(String code, String state) {
+            this.code = code;
+            this.state = state;
+
+        }
     }
 }

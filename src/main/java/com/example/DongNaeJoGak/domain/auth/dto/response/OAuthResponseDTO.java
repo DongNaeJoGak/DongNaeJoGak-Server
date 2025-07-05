@@ -32,8 +32,10 @@ public class OAuthResponseDTO {
         public static Member toMember(OAuthRequestDTO.LoginRequest request) {
             return Member.builder()
                     .username(request.getUsername())
+                    .email(request.getEmail())
                     .profileImage(request.getImage())
                     .providerId(request.getProviderId())
+                    .providerType(request.getProviderType())
                     .build();
         }
     }

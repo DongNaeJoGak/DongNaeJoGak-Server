@@ -33,7 +33,8 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/api/oauth2/**",
-            "/login/oauth2/code/naver"
+            "/login/oauth2/code/naver",
+            "/oauth2/authorize/naver",
     };
 
     @Bean
@@ -44,7 +45,7 @@ public class SecurityConfig {
                 .httpBasic((AbstractHttpConfigurer::disable))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(allowedUrls).permitAll()        // 위에 정의한 allowedUrls는 인증 필요 없음
+                        .requestMatchers(allowedUrls).permitAll()            // 위에 정의한 allowedUrls는 인증 필요 없음
                         .anyRequest().authenticated()                        // 그 외는 인증 필요
                 )
                 .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)  // 먼저 인증 필터
