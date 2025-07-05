@@ -1,8 +1,11 @@
 package com.example.DongNaeJoGak.domain.idea.controller;
 
+import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
+import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
 import com.example.DongNaeJoGak.domain.idea.service.IdeaService;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -81,6 +84,21 @@ public class IdeaController {
         IdeaResponseDTO.ListIdeaResponse getNearbyIdeas = ideaService.getNearbyIdeas(cursor, size, ideaId);
 
         return ApiResponse.onSuccess(getNearbyIdeas);
+    }
+
+
+    @Operation(
+            summary = "아이디어 좋아요/싫어요 반응",
+            description = "특정 아이디어에 대해 좋아요 또는 싫어요 반응을 등록하거나 취소합니다."
+    )
+    @PostMapping("/api/ideas/{ideaId}/reacts")
+    public ApiResponse<Void> reactToIdea(@AuthenticatedMember Member member,
+                                         @PathVariable Long ideaId,
+                                         @RequestParam IdeaReactionType reactionType) {
+
+        ideaService.reactIdea(ideaId, reactionType, member);
+        return ApiResponse.onSuccess(null);
+
     }
 
 
