@@ -1,5 +1,6 @@
 package com.example.DongNaeJoGak.domain.comment.controller;
 
+import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.comment.dto.request.CommentReportRequestDTO;
 import com.example.DongNaeJoGak.domain.comment.dto.request.CommentRequestDTO.CreateCommentRequest;
 import com.example.DongNaeJoGak.domain.comment.dto.request.CommentRequestDTO.CreateReplyRequest;
@@ -7,6 +8,7 @@ import com.example.DongNaeJoGak.domain.comment.dto.response.CommentReportRespons
 import com.example.DongNaeJoGak.domain.comment.dto.response.CommentResponseDTO.*;
 import com.example.DongNaeJoGak.domain.comment.service.CommentReportService;
 import com.example.DongNaeJoGak.domain.comment.service.CommentService;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +32,7 @@ public class CommentController {
     @Operation(summary = "댓글 생성", description = "아이디어에 새로운 댓글을 작성합니다.")
     @PostMapping
     public ApiResponse<CreateCommentResponse> createComment(
+            @AuthenticatedMember Member member,
             @Parameter(description = "아이디어 ID", example = "1")
             @PathVariable Long ideaId,
             @RequestBody CreateCommentRequest request
@@ -41,6 +44,7 @@ public class CommentController {
     @Operation(summary = "대댓글 생성", description = "특정 댓글에 대한 대댓글을 작성합니다.")
     @PostMapping("/{parentId}/replies")
     public ApiResponse<CreateCommentResponse> createReply(
+            @AuthenticatedMember Member member,
             @Parameter(description = "아이디어 ID", example = "1")
             @PathVariable Long ideaId,
             @Parameter(description = "부모 댓글 ID", example = "10")
@@ -69,6 +73,7 @@ public class CommentController {
     @Operation(summary = "댓글 삭제", description = "특정 댓글을 삭제합니다.")
     @DeleteMapping("/{commentId}")
     public ApiResponse<Void> deleteComment(
+            @AuthenticatedMember Member member,
             @Parameter(description = "삭제할 댓글 ID", example = "5")
             @PathVariable Long commentId
     ) {
@@ -79,6 +84,7 @@ public class CommentController {
     @Operation(summary = "댓글 신고", description = "특정 댓글을 신고합니다.")
     @PostMapping("/{commentId}/report")
     public ApiResponse<CommentReportResponseDTO> reportComment(
+            @AuthenticatedMember Member member,
             @Parameter(description = "신고할 댓글 ID", example = "5")
             @PathVariable Long commentId,
             @RequestBody CommentReportRequestDTO request

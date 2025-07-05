@@ -1,12 +1,11 @@
 package com.example.DongNaeJoGak.domain.member.service;
 
-import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.example.DongNaeJoGak.domain.member.dto.response.MemberResponseDTO;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 
-@Service
-@RequiredArgsConstructor
-public class MemberService {
+public interface MemberService {
 
-    private final MemberRepository memberRepository;
+    Member findById(Long id);
+
+    MemberResponseDTO.MemberInfoResponse findmyInfo(Member member);
 }

@@ -1,5 +1,6 @@
 package com.example.DongNaeJoGak.global.security;
 
+import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.domain.member.service.MemberService;
 import com.example.DongNaeJoGak.global.security.filter.JwtTokenExceptionFilter;
 import com.example.DongNaeJoGak.global.security.filter.JwtTokenFilter;
@@ -59,7 +60,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtTokenFilter jwtTokenFilter() {
-        return new JwtTokenFilter(jwtTokenUtil, securityContextRepository());
+        return new JwtTokenFilter(jwtTokenUtil, securityContextRepository(), memberService);
     }
 
     @Bean
