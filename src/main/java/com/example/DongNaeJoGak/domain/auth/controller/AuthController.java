@@ -39,7 +39,7 @@ public class AuthController {
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
-                + "&redirect_uri=http://dongnaejogak.kro.kr/login/oauth2/code/naver"
+                + "&redirect_uri=http://localhost:8080/login/oauth2/code/naver"
                 + "&state=" + state;
 
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
