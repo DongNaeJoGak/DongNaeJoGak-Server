@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.7' // 3.5.0 -> 3.4.7 로 다운
+    id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -40,8 +40,15 @@ dependencies {
     // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // Swagger 버전 업
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0'
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 }
 
 tasks.named('test') {
