@@ -7,8 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface IdeaRepository extends JpaRepository<Idea, Long> {
 
+    // ✅ 기존 위치 기반
     Slice<Idea> findByLatitudeBetweenAndLongitudeBetween(Double latMin, Double latMax, Double lonMin, Double lonMax);
 
     @Query("""
@@ -26,4 +29,7 @@ public interface IdeaRepository extends JpaRepository<Idea, Long> {
             @Param("cursor") Long cursor,
             Pageable pageable
     );
+
+    // 마이페이지: 내가 쓴 아이디어 가져오기
+    List<Idea> findByMemberId(Long memberId);
 }

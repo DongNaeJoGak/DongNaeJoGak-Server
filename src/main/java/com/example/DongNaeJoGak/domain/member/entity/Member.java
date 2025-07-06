@@ -37,15 +37,23 @@ public class Member {
     @Column(name = "profile_image_url", nullable = false)
     private String profileImage;
 
+    // bio 추가 (소개글)
+    @Column(name = "bio")
+    private String bio;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Idea> ideas;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-
     public void updateInfo(String username, String profileImage) {
         this.username = username;
         this.profileImage = profileImage;
+    }
+
+    // bio 업데이트 메서드
+    public void updateBio(String bio) {
+        this.bio = bio;
     }
 }
