@@ -17,7 +17,6 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @Configuration
@@ -31,9 +30,10 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/api/oauth2/**",
+            "/api/oauth2/login/**",
             "/login/oauth2/code/naver",
             "/oauth2/authorize/naver",
+            "/api/ideas/**"                 // 아이디어 관련 CR 은 접근 가능
     };
 
     @Bean
@@ -42,14 +42,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // 추가해야 CORS 설정이 적용됨
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
+                .httpBasic((AbstractHttpConfigurer::disable))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(allowedUrls).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(allowedUrls).permitAll()            // 위에 정의한 allowedUrls는 인증 필요 없음
+                        .anyRequest().authenticated()                        // 그 외는 인증 필요
                 )
-                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class);
+                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)  // 먼저 인증 필터
+                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class)  // 그 다음 예외 필터
+
+
+        ;
 
         return http.build();
     }
@@ -87,3 +90,4 @@ public class SecurityConfig {
         return source;
     }
 }
+
