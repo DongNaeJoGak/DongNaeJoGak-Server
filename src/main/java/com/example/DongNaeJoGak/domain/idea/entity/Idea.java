@@ -55,5 +55,15 @@ public class Idea extends BaseEntity {
 
     @OneToMany(mappedBy = "idea", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+
+
+    public void setLikeNum(Long likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public void setDislikeNum(Long dislikeNum) {
+        this.dislikeNum = dislikeNum;
+    }
 }
 

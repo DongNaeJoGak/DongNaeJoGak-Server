@@ -78,32 +78,5 @@ public class IdeaServiceImpl implements IdeaService {
         return IdeaResponseDTO.ListIdeaResponse.toListIdeaResponse(ideaSlice);
     }
 
-    @Override
-    public void reactIdea(Long ideaId, IdeaReactionType ideaReactionType, Member member) {
-        Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
-
-        IdeaReaction existingReaction = ideaReactionRepository.findByIdeaAndMember(idea, member);
-
-        if (existingReaction != null) {
-            if (existingReaction.getReactionType() == ideaReactionType) {
-                // 동일한 반응을 또 누르면 반응 취소
-                ideaReactionRepository.delete(existingReaction);
-                return;
-            } else {
-                // 다른 반응을 누르면 기존 반응 삭제 , 새로운 반응 저장
-                ideaReactionRepository.delete(existingReaction);
-            }
-        }
-
-        // 새로운 반응 저장
-        IdeaReaction newReaction = IdeaReaction.builder()
-                .idea(idea)
-                .member(member)
-                .reactionType(ideaReactionType)
-                .build();
-
-        ideaReactionRepository.save(newReaction);
-    }
-
 
 }

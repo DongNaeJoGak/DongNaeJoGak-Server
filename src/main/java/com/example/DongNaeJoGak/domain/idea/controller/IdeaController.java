@@ -87,20 +87,6 @@ public class IdeaController {
     }
 
 
-    @Operation(
-            summary = "아이디어 좋아요/싫어요 반응",
-            description = "특정 아이디어에 대해 좋아요 또는 싫어요 반응을 등록하거나 취소합니다."
-    )
-    @PostMapping("/api/ideas/{ideaId}/reacts")
-    public ApiResponse<Void> reactToIdea(@AuthenticatedMember Member member,
-                                         @PathVariable Long ideaId,
-                                         @RequestParam IdeaReactionType reactionType) {
-
-        ideaService.reactIdea(ideaId, reactionType, member);
-        return ApiResponse.onSuccess(null);
-
-    }
-
 
 }
 
