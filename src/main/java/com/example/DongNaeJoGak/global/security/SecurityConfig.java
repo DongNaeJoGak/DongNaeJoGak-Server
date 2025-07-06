@@ -1,16 +1,12 @@
 package com.example.DongNaeJoGak.global.security;
 
-import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.domain.member.service.MemberService;
 import com.example.DongNaeJoGak.global.security.filter.JwtTokenExceptionFilter;
 import com.example.DongNaeJoGak.global.security.filter.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,9 +29,10 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/api/oauth2/**",
+            "/api/oauth2/login/**",
             "/login/oauth2/code/naver",
             "/oauth2/authorize/naver",
+            "/api/ideas/**"                 // 아이디어 관련 CR 은 접근 가능
     };
 
     @Bean

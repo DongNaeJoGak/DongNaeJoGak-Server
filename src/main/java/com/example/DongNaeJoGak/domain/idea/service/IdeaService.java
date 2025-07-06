@@ -15,5 +15,4 @@ public interface IdeaService {
 
     IdeaResponseDTO.ListIdeaResponse getNearbyIdeas(Long cursor, Integer size, Long ideaId);
 
-    void reactIdea(Long ideaId, IdeaReactionType ideaReactionType, Member member);
 }
