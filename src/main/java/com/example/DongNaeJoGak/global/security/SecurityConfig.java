@@ -6,6 +6,7 @@ import com.example.DongNaeJoGak.global.security.filter.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.util.List;
 
 @Configuration
@@ -29,28 +31,25 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/api/oauth2/login/**",
+            "/api/oauth2/**",
             "/login/oauth2/code/naver",
             "/oauth2/authorize/naver",
-            "/api/ideas/**"                 // 아이디어 관련 CR 은 접근 가능
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // ✅ 이거 추가해야 CORS 설정이 적용됨!
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic((AbstractHttpConfigurer::disable))
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(allowedUrls).permitAll()            // 위에 정의한 allowedUrls는 인증 필요 없음
-                        .anyRequest().authenticated()                        // 그 외는 인증 필요
+                        .requestMatchers(allowedUrls).permitAll()
+                        .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)  // 먼저 인증 필터
-                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class)  // 그 다음 예외 필터
-
-
-        ;
+                .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenExceptionFilter(), JwtTokenFilter.class);
 
         return http.build();
     }
@@ -73,7 +72,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173", // 프론트 dev 주소
+                "http://localhost:3000", // 다른 로컬 주소 (필요 시)
+                "http://dongnaejogak.kro.kr" // 추후 배포용 (필요 시)
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
@@ -84,4 +87,3 @@ public class SecurityConfig {
         return source;
     }
 }
-

@@ -14,13 +14,13 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-//                .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
-//                .components(new Components().addSecuritySchemes("BearerAuth",
-//                        new SecurityScheme()
-//                                .type(SecurityScheme.Type.HTTP)
-//                                .scheme("bearer")
-//                                .bearerFormat("JWT")
-//                ))
+                .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
+                .components(new Components().addSecuritySchemes("BearerAuth",
+                        new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                ))
                 .info(new Info()
                         .title("DongNaeJoGak API")
                         .description("DongNaeJoGak API 명세서 with JWT Auth")
