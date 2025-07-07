@@ -5,7 +5,6 @@ import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.NaverOAuth2DTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.OAuthResponseDTO;
 import com.example.DongNaeJoGak.domain.auth.service.AuthService;
-import com.example.DongNaeJoGak.domain.auth.service.NaverOAuth2Service;
 import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
@@ -39,6 +38,8 @@ public class AuthController {
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
                 + "&redirect_uri=http://dongnaejogak.kro.kr/login/oauth2/code/naver"
                 + "&state=" + state;
+
+        System.out.println("생성된 state: " + state);
 
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
