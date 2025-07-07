@@ -30,13 +30,13 @@ public class AuthController {
 
     @GetMapping("/oauth2/authorize/naver")
     public void redirectToNaver(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String state = generateState(); // 랜덤 문자열 생성
+        String state = generateState();                        // 랜덤 문자열 생성
         request.getSession().setAttribute("state", state); // 세션에 저장
 
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
-                + "&redirect_uri=http://dongnaejogak.kro.kr/login/oauth2/code/naver"
+                + "&redirect_uri=" + naverOAuth2ConfigData.getRedirectUri()
                 + "&state=" + state;
 
         System.out.println("생성된 state: " + state);
@@ -46,7 +46,7 @@ public class AuthController {
 
     public String generateState() {
         SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(130, secureRandom).toString(32);
+        return new BigInteger(80, secureRandom).toString(32);
     }
 
 
