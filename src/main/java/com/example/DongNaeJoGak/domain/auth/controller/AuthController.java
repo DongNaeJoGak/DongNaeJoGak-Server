@@ -1,9 +1,11 @@
 package com.example.DongNaeJoGak.domain.auth.controller;
 
+import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
+import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.NaverOAuth2DTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.OAuthResponseDTO;
 import com.example.DongNaeJoGak.domain.auth.service.AuthService;
-import com.example.DongNaeJoGak.domain.auth.service.NaverOAuth2Service;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.OAuth2ErrorStatus;
@@ -13,10 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -40,8 +39,16 @@ public class AuthController {
                 + "&redirect_uri=http://dongnaejogak.kro.kr/login/oauth2/code/naver"
                 + "&state=" + state;
 
+        System.out.println("생성된 state: " + state);
+
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
+
+    public String generateState() {
+        SecureRandom secureRandom = new SecureRandom();
+        return new BigInteger(130, secureRandom).toString(32);
+    }
+
 
 
     @GetMapping("/login/oauth2/code/naver")
@@ -72,10 +79,17 @@ public class AuthController {
         return ApiResponse.onSuccess(response);
     }
 
+    @PostMapping("/api/oauth2/reissue")
+    public ApiResponse<OAuthResponseDTO.RefreshTokenResponse> reissueToken(@RequestBody OAuthRequestDTO.RefreshTokenRequest request) {
 
-    public String generateState() {
-        SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(130, secureRandom).toString(32);
+        OAuthResponseDTO.RefreshTokenResponse response = authService.reissueToken(request);
+        return ApiResponse.onSuccess(response);
+    }
+
+
+    @PostMapping("/api/oauth2/logout")
+    public ApiResponse<String> logout(@AuthenticatedMember Member member) {
+        return  ApiResponse.onSuccess("로그아웃에 성공했습니다");
     }
 
 }

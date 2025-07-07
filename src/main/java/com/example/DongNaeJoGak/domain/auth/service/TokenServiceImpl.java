@@ -17,4 +17,9 @@ public class TokenServiceImpl implements TokenService {
         return OAuthResponseDTO.LoginResponse.toLoginResponse(
                 jwtTokenUtil.createAccessToken(member), jwtTokenUtil.createRefreshToken(member));
     }
+
+    @Override
+    public void deleteToken(Member member) {
+
+    }
 }

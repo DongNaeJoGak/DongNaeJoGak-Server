@@ -6,4 +6,6 @@ import com.example.DongNaeJoGak.domain.member.entity.Member;
 public interface TokenService {
     OAuthResponseDTO.LoginResponse createLoginToken(Member member);
 
+    void deleteToken(Member member);
+
 }

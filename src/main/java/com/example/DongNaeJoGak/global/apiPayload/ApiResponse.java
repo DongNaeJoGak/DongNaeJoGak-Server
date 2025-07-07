@@ -12,16 +12,16 @@ import org.springframework.http.HttpStatus;
 public class ApiResponse<T> {
 
     @JsonProperty("isSuccess")
-    private final Boolean isSuccess;
+    private Boolean isSuccess;
 
     @JsonProperty("code")
-    private final String code;
+    private String code;
 
     @JsonProperty("message")
-    private final String message;
+    private String message;
 
     @JsonProperty("result")
-    private final T result;
+    private T result;
 
     //기본적으로 200 OK를 사용하는 성공 응답 생성 메서드
     public static <T> ApiResponse<T> onSuccess(T result) {
@@ -41,5 +41,10 @@ public class ApiResponse<T> {
     //실패 응답 생성 메서드 (데이터 없음)
     public static <T> ApiResponse<T> onFailure(String code, String message) {
         return new ApiResponse<>(false, code, message, null);
+    }
+
+    public ApiResponse<T> message(String message) {
+        this.message = message;
+        return this;
     }
 }
