@@ -22,6 +22,7 @@ public class AuthServiceImpl implements AuthService {
     private final Map<String, OAuth2Service> oAuth2ServiceMap;
     private final JwtTokenUtil jwtTokenUtil;
     private final MemberRepository memberRepository;
+    private final TokenService tokenService;
 
     @Override
     public OAuthResponseDTO.LoginResponse login(ProviderType providerType, String code, String state) {
@@ -46,5 +47,6 @@ public class AuthServiceImpl implements AuthService {
 
         return OAuthResponseDTO.RefreshTokenResponse.torefreshTokenResponse(jwtTokenUtil.createAccessToken(member));
     }
+
 
 }

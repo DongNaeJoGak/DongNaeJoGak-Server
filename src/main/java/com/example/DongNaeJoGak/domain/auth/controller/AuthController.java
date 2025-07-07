@@ -1,10 +1,12 @@
 package com.example.DongNaeJoGak.domain.auth.controller;
 
+import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.NaverOAuth2DTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.OAuthResponseDTO;
 import com.example.DongNaeJoGak.domain.auth.service.AuthService;
 import com.example.DongNaeJoGak.domain.auth.service.NaverOAuth2Service;
+import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.OAuth2ErrorStatus;
@@ -40,6 +42,12 @@ public class AuthController {
 
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
+
+    public String generateState() {
+        SecureRandom secureRandom = new SecureRandom();
+        return new BigInteger(130, secureRandom).toString(32);
+    }
+
 
 
     @GetMapping("/login/oauth2/code/naver")
@@ -78,9 +86,9 @@ public class AuthController {
     }
 
 
-    public String generateState() {
-        SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(130, secureRandom).toString(32);
+    @PostMapping("/api/oauth2/logout")
+    public ApiResponse<String> logout(@AuthenticatedMember Member member) {
+        return  ApiResponse.onSuccess("로그아웃에 성공했습니다");
     }
 
 }
