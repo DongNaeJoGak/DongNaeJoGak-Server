@@ -36,7 +36,7 @@ public class AuthController {
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
-                + "&redirect_uri=http://dongnaejogak.kro.kr/login/oauth2/code/naver"
+                + "&redirect_uri=" + naverOAuth2ConfigData.getRedirectUri()
                 + "&state=" + state;
 
         System.out.println("생성된 state: " + state);
