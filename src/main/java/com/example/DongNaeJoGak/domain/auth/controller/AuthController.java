@@ -1,5 +1,6 @@
 package com.example.DongNaeJoGak.domain.auth.controller;
 
+import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.NaverOAuth2DTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.OAuthResponseDTO;
 import com.example.DongNaeJoGak.domain.auth.service.AuthService;
@@ -13,10 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -69,6 +67,13 @@ public class AuthController {
                                                              @RequestParam("state") String state) {
         OAuthResponseDTO.LoginResponse response = authService.login(providerType, code, state);
 
+        return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/api/oauth2/reissue")
+    public ApiResponse<OAuthResponseDTO.RefreshTokenResponse> reissueToken(@RequestBody OAuthRequestDTO.RefreshTokenRequest request) {
+
+        OAuthResponseDTO.RefreshTokenResponse response = authService.reissueToken(request);
         return ApiResponse.onSuccess(response);
     }
 

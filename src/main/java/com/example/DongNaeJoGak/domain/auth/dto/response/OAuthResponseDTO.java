@@ -37,5 +37,11 @@ public class OAuthResponseDTO {
     @Builder
     public static class RefreshTokenResponse {
         private String accessToken;
+
+        public static RefreshTokenResponse torefreshTokenResponse(String accessToken) {
+            return RefreshTokenResponse.builder()
+                    .accessToken(accessToken)
+                    .build();
+        }
     }
 }
