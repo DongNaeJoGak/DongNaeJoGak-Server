@@ -30,40 +30,23 @@ public class AuthController {
 
     @GetMapping("/oauth2/authorize/naver")
     public void redirectToNaver(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String state = generateState(); // 랜덤 문자열 생성
-        request.getSession().setAttribute("state", state); // 세션에 저장
 
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
-                + "&redirect_uri=http://dongnaejogak.kro.kr/login/oauth2/code/naver"
-                + "&state=" + state;
-
-        System.out.println("생성된 state: " + state);
+                + "&redirect_uri=" + naverOAuth2ConfigData.getRedirectUri()
+                ;
 
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
 
-    public String generateState() {
-        SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(130, secureRandom).toString(32);
-    }
 
 
 
     @GetMapping("/login/oauth2/code/naver")
-    public ResponseEntity<?> callback(@RequestParam("code") String code,
+    public ResponseEntity<NaverOAuth2DTO.NaverTokenResponse> callback(@RequestParam("code") String code,
                                       @RequestParam("state") String state,
                                       HttpServletRequest request) {
-        System.out.println("code: " + code);
-        System.out.println("state: " + state);
-
-        String sessionState = (String) request.getSession().getAttribute("state");
-
-        if (sessionState == null || !sessionState.equals(state)) {
-            throw new OAuth2Exception(OAuth2ErrorStatus.INVALID_STATE);
-        }
-
 
         NaverOAuth2DTO.NaverTokenResponse response = new NaverOAuth2DTO.NaverTokenResponse(code, state);
         return ResponseEntity.ok(response);
