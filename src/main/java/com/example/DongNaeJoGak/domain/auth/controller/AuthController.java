@@ -36,10 +36,9 @@ public class AuthController {
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
                 + "&redirect_uri=" + naverOAuth2ConfigData.getRedirectUri()
                 ;
-
+      
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
-
 
 
 
