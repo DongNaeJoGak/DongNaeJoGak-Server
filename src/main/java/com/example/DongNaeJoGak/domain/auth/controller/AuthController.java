@@ -30,23 +30,14 @@ public class AuthController {
 
     @GetMapping("/oauth2/authorize/naver")
     public void redirectToNaver(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String state = generateState();                        // 랜덤 문자열 생성
-        request.getSession().setAttribute("state", state); // 세션에 저장
 
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
                 + "&redirect_uri=" + naverOAuth2ConfigData.getRedirectUri()
-                + "&state=" + state;
-
-        System.out.println("생성된 state: " + state);
-
+                ;
+      
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
-    }
-
-    public String generateState() {
-        SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(80, secureRandom).toString(32);
     }
 
 
@@ -74,6 +65,7 @@ public class AuthController {
         } catch (IOException e) {
             throw new OAuth2Exception(OAuth2ErrorStatus.FAIL_REDIRECTION);
         }
+
 
 //        NaverOAuth2DTO.NaverTokenResponse response = new NaverOAuth2DTO.NaverTokenResponse(code, state);
 //        return ResponseEntity.ok(response);

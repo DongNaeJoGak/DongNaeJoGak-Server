@@ -1,6 +1,5 @@
 package com.example.DongNaeJoGak.domain.idea.controller;
 
-import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
 import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
