@@ -47,11 +47,6 @@ public class AuthController {
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
 
-    public String generateState() {
-        SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(80, secureRandom).toString(32);
-    }
-
 
 
     @GetMapping("/login/oauth2/code/naver")
@@ -119,4 +114,10 @@ public class AuthController {
         return  ApiResponse.onSuccess("로그아웃에 성공했습니다");
     }
 
+
+
+    public String generateState() {
+        SecureRandom secureRandom = new SecureRandom();
+        return new BigInteger(80, secureRandom).toString(32);
+    }
 }
