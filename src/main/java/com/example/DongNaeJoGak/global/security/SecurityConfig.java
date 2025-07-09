@@ -31,9 +31,8 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/api/oauth2/login/**",
-            "/login/oauth2/code/naver",
-            "/oauth2/authorize/naver",
-            "login/naver/success",
+            "/login/**",
+            "/oauth2/authorize/**",
             "/api/ideas/**"                 // 아이디어 관련 CR 은 접근 가능
     };
 

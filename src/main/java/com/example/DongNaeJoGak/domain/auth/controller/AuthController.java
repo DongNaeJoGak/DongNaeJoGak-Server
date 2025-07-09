@@ -47,31 +47,16 @@ public class AuthController {
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
 
-
-
     @GetMapping("/login/oauth2/code/naver")
-    public void callback(@RequestParam("code") String code,
-                                      @RequestParam("state") String state,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) {
-        System.out.println("code: " + code);
-        System.out.println("state: " + state);
+    public void naverCallback(@RequestParam("code") String code,
+                         @RequestParam("state") String state,
+                         HttpServletResponse response) {
 
-        try {
-
-            String frontendUrl = "http://localhost:5173/login/naver/success"
-                    + "?code=" + code + "&state=" + state;
-
-            response.sendRedirect(frontendUrl);
-
-        } catch (IOException e) {
-            throw new OAuth2Exception(OAuth2ErrorStatus.FAIL_REDIRECTION);
-        }
+        redirectToFrontEnd("naver", code, state, response);
 
     }
 
-
-    @GetMapping("/oauth/authorize/google")
+    @GetMapping("/oauth2/authorize/google")
     public void redirectToGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // (선택) state 생성
@@ -89,6 +74,16 @@ public class AuthController {
                 + "&state=" + state;
 
         response.sendRedirect(redirectUri);
+    }
+
+
+    @GetMapping("/login/oauth2/code/google")
+    public void googleCallback(@RequestParam("code") String code,
+                         @RequestParam("state") String state,
+                         HttpServletResponse response) {
+
+        redirectToFrontEnd("google", code, state, response);
+
     }
 
 
@@ -115,6 +110,22 @@ public class AuthController {
     }
 
 
+
+    private void redirectToFrontEnd(String providerType, String code, String state, HttpServletResponse response) {
+        System.out.println("code: " + code);
+        System.out.println("state: " + state);
+
+        try {
+            String frontendUrl = "http://localhost:5173/login/" + providerType + "/success"
+                    + "?code=" + code + "&state=" + state;
+
+            response.sendRedirect(frontendUrl);
+
+        } catch (IOException e) {
+            throw new OAuth2Exception(OAuth2ErrorStatus.FAIL_REDIRECTION);
+        }
+
+    }
 
     public String generateState() {
         SecureRandom secureRandom = new SecureRandom();
