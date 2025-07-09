@@ -1,12 +1,15 @@
+server:
+  port: 8080
+
 spring:
   profiles:
     active: local
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${LOCAL_DB_URL}
-    username: ${LOCAL_DB_USERNAME}
-    password: ${LOCAL_DB_PW}
+    url: jdbc:mysql://dongnaejogak-db.cxe4gsug4rg1.ap-northeast-2.rds.amazonaws.com:3306/dongnaejogak_db?serverTimezone=Asia/Seoul
+    username: admin
+    password: DongNaeJoGak3$96#*
 
   jpa:
     hibernate:
@@ -20,10 +23,10 @@ spring:
     oauth2:
       provider:
         naver:
-          client-id: ${NAVER_CLIENT_ID}
-          client-secret: ${NAVER_CLIENT_SECRET}
+          client-id: UJtjWdIQkEh9_z_0iJBU
+          client-secret: oVn6sfd689
           client-name: Naver
-          redirect-uri: http://dongnaejogak.kro.kr/login/oauth2/code/naver
+          redirect-uri: http://localhost:8080/login/oauth2/code/naver
           authorization-grant-type: authorization_code
           authorization-uri: https://nid.naver.com/oauth2.0/authorize
           token-uri: https://nid.naver.com/oauth2.0/token
@@ -31,7 +34,7 @@ spring:
           user-name-attribute: response
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: qYt8Wm3Kr1Vb6Xp0Qs9Zj7Nv5Gh4Lf2Sd8Ak3Jp5Tu4Xv9Lq7Ms6Yb1Nz5Qr0TwR
   time:
     access: 3600000      # 1 hour (ms)
     refresh: 2592000000  # 30 days (ms)
