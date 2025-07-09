@@ -9,6 +9,7 @@ import com.example.DongNaeJoGak.domain.idea.member.entity.enums.ProviderType;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.OAuth2ErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.OAuth2Exception;
+import com.example.DongNaeJoGak.global.security.data.GoogleOAuth2ConfigData;
 import com.example.DongNaeJoGak.global.security.data.NaverOAuth2ConfigData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 @RestController
@@ -25,6 +28,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final NaverOAuth2ConfigData naverOAuth2ConfigData;
+    private final GoogleOAuth2ConfigData googleOAuth2ConfigData;
 
     @GetMapping("/oauth2/authorize/naver")
     public void redirectToNaver(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,11 +45,6 @@ public class AuthController {
                 ;
 
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
-    }
-
-    public String generateState() {
-        SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(80, secureRandom).toString(32);
     }
 
 
@@ -72,6 +71,27 @@ public class AuthController {
     }
 
 
+    @GetMapping("/oauth/authorize/google")
+    public void redirectToGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        // (선택) state 생성
+        String state = generateState();
+        request.getSession().setAttribute("state", state);
+
+        // Google 로그인 URL 생성
+        String redirectUri = "https://accounts.google.com/o/oauth2/auth"
+                + "?response_type=code"
+                + "&client_id=" + googleOAuth2ConfigData.getClientId()
+                + "&redirect_uri=" + googleOAuth2ConfigData.getRedirectUri()
+                + "&scope=" + URLEncoder.encode(googleOAuth2ConfigData.getScopes(), StandardCharsets.UTF_8)
+                + "&access_type=offline"
+                + "&prompt=consent"
+                + "&state=" + state;
+
+        response.sendRedirect(redirectUri);
+    }
+
+
     @GetMapping("/api/oauth2/login/{providerType}")
     public ApiResponse<OAuthResponseDTO.LoginResponse> login(@PathVariable ProviderType providerType,
                                                              @RequestParam("code") String code,
@@ -94,4 +114,10 @@ public class AuthController {
         return  ApiResponse.onSuccess("로그아웃에 성공했습니다");
     }
 
+
+
+    public String generateState() {
+        SecureRandom secureRandom = new SecureRandom();
+        return new BigInteger(80, secureRandom).toString(32);
+    }
 }
