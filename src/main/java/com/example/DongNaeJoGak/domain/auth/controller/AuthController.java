@@ -60,7 +60,7 @@ public class AuthController {
 
         try {
 
-            String frontendUrl = "http://localhost:3000/login/oauth2/code/naver"
+            String frontendUrl = "http://localhost:3000/login/naver/success"
                     + "?code=" + code + "&state=" + state;
 
             response.sendRedirect(frontendUrl);
