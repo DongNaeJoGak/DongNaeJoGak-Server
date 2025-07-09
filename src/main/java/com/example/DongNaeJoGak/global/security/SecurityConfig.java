@@ -33,6 +33,7 @@ public class SecurityConfig {
             "/api/oauth2/login/**",
             "/login/oauth2/code/naver",
             "/oauth2/authorize/naver",
+            "login/naver/success",
             "/api/ideas/**"                 // 아이디어 관련 CR 은 접근 가능
     };
 
