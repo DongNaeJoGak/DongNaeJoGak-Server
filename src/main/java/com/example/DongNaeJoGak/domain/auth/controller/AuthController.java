@@ -51,11 +51,6 @@ public class AuthController {
         System.out.println("state: " + state);
 
         try {
-            String sessionState = (String) request.getSession().getAttribute("state");
-
-            if (sessionState == null || !sessionState.equals(state)) {
-                throw new OAuth2Exception(OAuth2ErrorStatus.INVALID_STATE);
-            }
 
             String frontendUrl = "http://localhost:3000/login/oauth2/code/naver"
                     + "?code=" + code + "&state=" + state;
