@@ -8,7 +8,7 @@ import com.example.DongNaeJoGak.domain.comment.dto.response.CommentReportRespons
 import com.example.DongNaeJoGak.domain.comment.dto.response.CommentResponseDTO.*;
 import com.example.DongNaeJoGak.domain.comment.service.CommentReportService;
 import com.example.DongNaeJoGak.domain.comment.service.CommentService;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -2,8 +2,8 @@ package com.example.DongNaeJoGak.domain.auth.service;
 
 import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.NaverOAuth2DTO;
-import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
-import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
+import com.example.DongNaeJoGak.domain.idea.member.entity.enums.ProviderType;
+import com.example.DongNaeJoGak.domain.idea.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.OAuth2ErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.OAuth2Exception;
 import com.example.DongNaeJoGak.global.security.data.NaverOAuth2ConfigData;

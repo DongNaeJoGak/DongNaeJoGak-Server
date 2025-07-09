@@ -1,6 +1,6 @@
 package com.example.DongNaeJoGak.global.security;
 
-import com.example.DongNaeJoGak.domain.member.service.MemberService;
+import com.example.DongNaeJoGak.domain.idea.member.service.MemberService;
 import com.example.DongNaeJoGak.global.security.filter.JwtTokenExceptionFilter;
 import com.example.DongNaeJoGak.global.security.filter.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;

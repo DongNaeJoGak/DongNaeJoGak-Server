@@ -2,7 +2,7 @@ package com.example.DongNaeJoGak.domain.comment.repository;
 
 import com.example.DongNaeJoGak.domain.comment.entity.Comment;
 import com.example.DongNaeJoGak.domain.comment.entity.CommentReport;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentReportRepository extends JpaRepository<CommentReport, Long> {

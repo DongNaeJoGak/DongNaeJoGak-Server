@@ -1,8 +1,8 @@
-package com.example.DongNaeJoGak.domain.member.service;
+package com.example.DongNaeJoGak.domain.idea.member.service;
 
-import com.example.DongNaeJoGak.domain.member.dto.response.MemberResponseDTO;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
-import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
+import com.example.DongNaeJoGak.domain.idea.member.dto.response.MemberResponseDTO;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.MemberErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.MemberException;
 import lombok.RequiredArgsConstructor;

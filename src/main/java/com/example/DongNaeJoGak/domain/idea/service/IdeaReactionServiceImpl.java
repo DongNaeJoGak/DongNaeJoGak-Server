@@ -6,7 +6,7 @@ import com.example.DongNaeJoGak.domain.idea.entity.IdeaReaction;
 import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaReactionRepository;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaRepository;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.IdeaErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.IdeaException;
 import lombok.RequiredArgsConstructor;

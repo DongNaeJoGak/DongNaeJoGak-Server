@@ -1,20 +1,15 @@
 package com.example.DongNaeJoGak.global.security;
 
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.TokenErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.TokenException;
 import com.example.DongNaeJoGak.global.security.data.JwtConfigData;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;

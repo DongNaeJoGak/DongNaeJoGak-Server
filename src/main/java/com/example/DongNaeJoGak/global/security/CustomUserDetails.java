@@ -1,9 +1,8 @@
 package com.example.DongNaeJoGak.global.security;
 
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
