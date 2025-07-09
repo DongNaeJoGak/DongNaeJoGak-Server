@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // 추가해야 CORS 설정이 적용됨
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic((AbstractHttpConfigurer::disable))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(allowedUrls).permitAll()            // 위에 정의한 allowedUrls는 인증 필요 없음
                         .anyRequest().authenticated()                        // 그 외는 인증 필요
