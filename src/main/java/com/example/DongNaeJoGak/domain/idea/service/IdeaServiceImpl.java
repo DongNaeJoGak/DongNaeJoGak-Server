@@ -3,22 +3,15 @@ package com.example.DongNaeJoGak.domain.idea.service;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
 import com.example.DongNaeJoGak.domain.idea.entity.Idea;
-import com.example.DongNaeJoGak.domain.idea.entity.IdeaReaction;
-import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaReactionRepository;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaRepository;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.IdeaErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.IdeaException;
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

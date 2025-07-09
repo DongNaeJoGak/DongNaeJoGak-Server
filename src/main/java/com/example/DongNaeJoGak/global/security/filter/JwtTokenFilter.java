@@ -1,10 +1,7 @@
 package com.example.DongNaeJoGak.global.security.filter;
 
-import com.example.DongNaeJoGak.domain.member.entity.Member;
-import com.example.DongNaeJoGak.domain.member.repository.MemberRepository;
-import com.example.DongNaeJoGak.domain.member.service.MemberService;
-import com.example.DongNaeJoGak.global.apiPayload.code.status.error.MemberErrorStatus;
-import com.example.DongNaeJoGak.global.apiPayload.exception.MemberException;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.service.MemberService;
 import com.example.DongNaeJoGak.global.security.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

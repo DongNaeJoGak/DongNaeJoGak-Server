@@ -2,11 +2,10 @@ package com.example.DongNaeJoGak.domain.auth.controller;
 
 import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
-import com.example.DongNaeJoGak.domain.auth.dto.response.NaverOAuth2DTO;
 import com.example.DongNaeJoGak.domain.auth.dto.response.OAuthResponseDTO;
 import com.example.DongNaeJoGak.domain.auth.service.AuthService;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
-import com.example.DongNaeJoGak.domain.member.entity.enums.ProviderType;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.enums.ProviderType;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.OAuth2ErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.OAuth2Exception;
@@ -14,7 +13,6 @@ import com.example.DongNaeJoGak.global.security.data.NaverOAuth2ConfigData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -30,16 +28,16 @@ public class AuthController {
 
     @GetMapping("/oauth2/authorize/naver")
     public void redirectToNaver(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String state = generateState();                        // 랜덤 문자열 생성
+
+        String state = generateState(); // 랜덤 문자열 생성
         request.getSession().setAttribute("state", state); // 세션에 저장
 
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
                 + "&redirect_uri=" + naverOAuth2ConfigData.getRedirectUri()
-                + "&state=" + state;
-
-        System.out.println("생성된 state: " + state);
+                + "&state=" + state
+                ;
 
         response.sendRedirect(redirectUri); // 네이버 로그인 페이지로 이동
     }
@@ -48,8 +46,6 @@ public class AuthController {
         SecureRandom secureRandom = new SecureRandom();
         return new BigInteger(80, secureRandom).toString(32);
     }
-
-
 
     @GetMapping("/login/oauth2/code/naver")
     public void callback(@RequestParam("code") String code,
@@ -75,8 +71,6 @@ public class AuthController {
             throw new OAuth2Exception(OAuth2ErrorStatus.FAIL_REDIRECTION);
         }
 
-//        NaverOAuth2DTO.NaverTokenResponse response = new NaverOAuth2DTO.NaverTokenResponse(code, state);
-//        return ResponseEntity.ok(response);
     }
 
 

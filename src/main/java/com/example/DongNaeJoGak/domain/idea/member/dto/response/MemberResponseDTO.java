@@ -1,8 +1,6 @@
-package com.example.DongNaeJoGak.domain.member.dto.response;
+package com.example.DongNaeJoGak.domain.idea.member.dto.response;
 
-import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
-import com.example.DongNaeJoGak.domain.idea.entity.Idea;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 

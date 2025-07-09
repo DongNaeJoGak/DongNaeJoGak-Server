@@ -1,7 +1,7 @@
 package com.example.DongNaeJoGak.domain.auth.dto.response;
 
 import com.example.DongNaeJoGak.domain.auth.dto.request.OAuthRequestDTO;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 

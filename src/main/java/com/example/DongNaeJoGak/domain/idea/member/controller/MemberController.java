@@ -1,9 +1,9 @@
-package com.example.DongNaeJoGak.domain.member.controller;
+package com.example.DongNaeJoGak.domain.idea.member.controller;
 
 import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
-import com.example.DongNaeJoGak.domain.member.dto.response.MemberResponseDTO;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
-import com.example.DongNaeJoGak.domain.member.service.MemberService;
+import com.example.DongNaeJoGak.domain.idea.member.dto.response.MemberResponseDTO;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.service.MemberService;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

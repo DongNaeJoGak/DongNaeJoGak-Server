@@ -4,7 +4,7 @@ import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaReactionResponseDTO;
 import com.example.DongNaeJoGak.domain.idea.entity.enums.IdeaReactionType;
 import com.example.DongNaeJoGak.domain.idea.service.IdeaReactionService;
-import com.example.DongNaeJoGak.domain.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
