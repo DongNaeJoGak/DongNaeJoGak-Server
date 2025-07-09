@@ -32,6 +32,7 @@ public class AuthController {
         String state = generateState(); // 랜덤 문자열 생성
         request.getSession().setAttribute("state", state); // 세션에 저장
 
+
         String redirectUri = "https://nid.naver.com/oauth2.0/authorize"
                 + "?response_type=code"
                 + "&client_id=" + naverOAuth2ConfigData.getClientId()
@@ -47,6 +48,8 @@ public class AuthController {
         return new BigInteger(80, secureRandom).toString(32);
     }
 
+
+
     @GetMapping("/login/oauth2/code/naver")
     public void callback(@RequestParam("code") String code,
                                       @RequestParam("state") String state,
@@ -56,11 +59,6 @@ public class AuthController {
         System.out.println("state: " + state);
 
         try {
-            String sessionState = (String) request.getSession().getAttribute("state");
-
-            if (sessionState == null || !sessionState.equals(state)) {
-                throw new OAuth2Exception(OAuth2ErrorStatus.INVALID_STATE);
-            }
 
             String frontendUrl = "http://localhost:3000/login/oauth2/code/naver"
                     + "?code=" + code + "&state=" + state;
