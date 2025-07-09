@@ -52,21 +52,31 @@ public class AuthController {
 
 
     @GetMapping("/login/oauth2/code/naver")
-    public ResponseEntity<?> callback(@RequestParam("code") String code,
+    public void callback(@RequestParam("code") String code,
                                       @RequestParam("state") String state,
-                                      HttpServletRequest request) {
+                                      HttpServletRequest request,
+                                      HttpServletResponse response) {
         System.out.println("code: " + code);
         System.out.println("state: " + state);
 
-        String sessionState = (String) request.getSession().getAttribute("state");
+        try {
+            String sessionState = (String) request.getSession().getAttribute("state");
 
-        if (sessionState == null || !sessionState.equals(state)) {
-            throw new OAuth2Exception(OAuth2ErrorStatus.INVALID_STATE);
+            if (sessionState == null || !sessionState.equals(state)) {
+                throw new OAuth2Exception(OAuth2ErrorStatus.INVALID_STATE);
+            }
+
+            String frontendUrl = "http://localhost:3000/login/oauth2/code/naver"
+                    + "?code=" + code + "&state=" + state;
+
+            response.sendRedirect(frontendUrl);
+
+        } catch (IOException e) {
+            throw new OAuth2Exception(OAuth2ErrorStatus.FAIL_REDIRECTION);
         }
 
-
-        NaverOAuth2DTO.NaverTokenResponse response = new NaverOAuth2DTO.NaverTokenResponse(code, state);
-        return ResponseEntity.ok(response);
+//        NaverOAuth2DTO.NaverTokenResponse response = new NaverOAuth2DTO.NaverTokenResponse(code, state);
+//        return ResponseEntity.ok(response);
     }
 
 

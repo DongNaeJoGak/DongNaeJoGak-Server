@@ -13,6 +13,7 @@ public enum OAuth2ErrorStatus implements BaseErrorCode {
     FAIL_OAUTH2_LOGIN(HttpStatus.UNAUTHORIZED, "OAUTH401", "소셜로그인에 실패했습니다."),
     FAIL_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "OAUTH401", "소셜로그인 엑세스 토큰을 가져오지 못했습니다."),
     FAIL_USER_INFO(HttpStatus.UNAUTHORIZED, "OAUTH401", "소셜로그인 사용자 정보 가져오지 못했습니다."),
+    FAIL_REDIRECTION(HttpStatus.INTERNAL_SERVER_ERROR, "OAUTH500", "프론트 리디렉션에 실패했습니다."),
     ;
 
     private final HttpStatus httpStatus;
