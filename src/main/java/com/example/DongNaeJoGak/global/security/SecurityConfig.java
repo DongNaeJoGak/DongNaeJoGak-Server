@@ -33,7 +33,8 @@ public class SecurityConfig {
             "/api/oauth2/login/**",
             "/login/**",
             "/oauth2/authorize/**",
-            "/api/ideas/**"                 // 아이디어 관련 CR 은 접근 가능
+            "/api/ideas/**",                 // 아이디어 관련 CR 은 접근 가능
+            "/api/ideas/{ideaId}/comments/list"
     };
 
     @Bean

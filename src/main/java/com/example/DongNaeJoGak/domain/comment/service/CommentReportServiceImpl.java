@@ -24,14 +24,14 @@ public class CommentReportServiceImpl implements CommentReportService {
     private final MemberRepository memberRepository;
 
     // 임시 로그인 멤버 (1L 고정)
-    private Member getCurrentMember() {
-        return memberRepository.findById(1L)
+    private Member getCurrentMember(Member member) {
+        return memberRepository.findById(member.getId())
                 .orElseThrow(() -> new MemberException(MemberErrorStatus.NOT_FOUND));
     }
 
     @Override
-    public CommentReportResponseDTO reportComment(Long commentId, CommentReportRequestDTO request) {
-        Member reporter = getCurrentMember();
+    public CommentReportResponseDTO reportComment(Long commentId, CommentReportRequestDTO request, Member member) {
+        Member reporter = getCurrentMember(member);
 
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CommentException(CommentErrorStatus.NOT_FOUND));

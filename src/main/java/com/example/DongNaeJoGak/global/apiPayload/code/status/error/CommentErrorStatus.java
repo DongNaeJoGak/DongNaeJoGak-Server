@@ -13,6 +13,8 @@ public enum CommentErrorStatus implements BaseErrorCode {
     INVALID_PARENT(HttpStatus.BAD_REQUEST, "COMMENT4001", "답글을 달 수 없는 댓글입니다."), // 유효하지 않은 부모 댓글
     SELF_REPORT(HttpStatus.BAD_REQUEST, "COMMENT4002", "자신의 댓글은 신고할 수 없습니다."),
     ALREADY_REPORTED(HttpStatus.CONFLICT, "COMMENT409", "이미 신고한 댓글입니다."),
+    UNAUTHORIZED_COMMENT_DELETE(HttpStatus.FORBIDDEN, "COMMENT403", "본인의 댓글만 삭제할 수 있습니다."),
+
     ;
 
     private final HttpStatus httpStatus;
