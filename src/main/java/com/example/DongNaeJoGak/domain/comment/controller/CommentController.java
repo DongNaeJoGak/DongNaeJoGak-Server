@@ -37,7 +37,7 @@ public class CommentController {
             @PathVariable Long ideaId,
             @RequestBody CreateCommentRequest request
     ) {
-        CreateCommentResponse response = commentService.createComment(ideaId, request);
+        CreateCommentResponse response = commentService.createComment(ideaId, request, member);
         return ApiResponse.onSuccess(response);
     }
 
@@ -51,12 +51,12 @@ public class CommentController {
             @PathVariable Long parentId,
             @RequestBody CreateReplyRequest request
     ) {
-        CreateCommentResponse response = commentService.createReply(ideaId, parentId, request);
+        CreateCommentResponse response = commentService.createReply(ideaId, parentId, request, member);
         return ApiResponse.onSuccess(response);
     }
 
-    @Operation(summary = "댓글 목록 조회", description = "해당 아이디어의 댓글 목록을 페이지네이션으로 조회합니다.")
-    @GetMapping
+    @Operation(summary = "댓글 목록 조회", description = "해당 아이디어의 댓글 목록을 페이지네이션으로 조회합니다.\n 로그인하지 않아도 댓글 조회는 가능합니다")
+    @GetMapping("/list")
     public ApiResponse<ListCommentResponse> getComments(
             @Parameter(description = "아이디어 ID", example = "1")
             @PathVariable Long ideaId,
@@ -77,7 +77,7 @@ public class CommentController {
             @Parameter(description = "삭제할 댓글 ID", example = "5")
             @PathVariable Long commentId
     ) {
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentId, member);
         return ApiResponse.onSuccess(null);
     }
 
@@ -89,7 +89,7 @@ public class CommentController {
             @PathVariable Long commentId,
             @RequestBody CommentReportRequestDTO request
     ) {
-        CommentReportResponseDTO response = commentReportService.reportComment(commentId, request);
+        CommentReportResponseDTO response = commentReportService.reportComment(commentId, request, member);
         return ApiResponse.onSuccess(response);
     }
 }

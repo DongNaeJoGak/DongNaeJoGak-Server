@@ -31,22 +31,22 @@ public class CommentServiceImpl implements CommentService {
     private final MemberRepository memberRepository;
 
     // 현재 로그인한 유저 (임시)
-    private Member getCurrentMember() {
-        return memberRepository.findById(1L) // 임시 고정
+    private Member getCurrentMember(Member member) {
+        return memberRepository.findById(member.getId()) // 임시 고정
                 .orElseThrow(() -> new MemberException(MemberErrorStatus.NOT_FOUND));
     }
 
     // 댓글 생성
     @Override
-    public CreateCommentResponse createComment(Long ideaId, CreateCommentRequest request) {
-        Member member = getCurrentMember();
+    public CreateCommentResponse createComment(Long ideaId, CreateCommentRequest request, Member member) {
+        Member memberId = getCurrentMember(member);
         Idea idea = ideaRepository.findById(ideaId)
                 .orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
 
         Comment comment = Comment.builder()
                 .content(request.getContent())
                 .idea(idea)
-                .member(member)
+                .member(memberId)
                 .build();
 
         commentRepository.save(comment);
@@ -55,8 +55,8 @@ public class CommentServiceImpl implements CommentService {
 
     // 대댓글 생성
     @Override
-    public CreateCommentResponse createReply(Long ideaId, Long parentId, CreateReplyRequest request) {
-        Member member = getCurrentMember();
+    public CreateCommentResponse createReply(Long ideaId, Long parentId, CreateReplyRequest request, Member member) {
+        Member memberId = getCurrentMember(member);
         Idea idea = ideaRepository.findById(ideaId)
                 .orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
 
@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
         Comment reply = Comment.builder()
                 .content(request.getContent())
                 .idea(idea)
-                .member(member)
+                .member(memberId)
                 .parent(parent)
                 .build();
 
@@ -83,9 +83,15 @@ public class CommentServiceImpl implements CommentService {
 
     // 댓글 삭제
     @Override
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CommentException(CommentErrorStatus.NOT_FOUND));
+
+        // 댓글 작성자와 현재 요청한 멤버가 다르면 예외 발생
+        if (!comment.getMember().getId().equals(member.getId())) {
+            throw new CommentException(CommentErrorStatus.UNAUTHORIZED_COMMENT_DELETE);
+        }
+
 
         comment.softDelete(LocalDateTime.now());
         commentRepository.save(comment);
