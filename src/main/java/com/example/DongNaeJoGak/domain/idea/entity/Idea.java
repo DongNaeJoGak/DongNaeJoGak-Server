@@ -65,5 +65,9 @@ public class Idea extends BaseEntity {
     public void setDislikeNum(Long dislikeNum) {
         this.dislikeNum = dislikeNum;
     }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
 

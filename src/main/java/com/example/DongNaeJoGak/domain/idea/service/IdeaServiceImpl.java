@@ -12,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +23,27 @@ public class IdeaServiceImpl implements IdeaService {
     private final IdeaRepository ideaRepository;
     private final IdeaReactionRepository ideaReactionRepository;
 
+    private final S3Service s3Service;
+
     @Override
-    public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request) {
+    public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request, MultipartFile image) throws IOException {
+
+        // ✅ S3 업로드
+        String imageUrl = s3Service.uploadFile(image);
+
+        // ✅ 엔티티 빌드 + 이미지 URL 세팅
         Idea idea = Idea.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .imageUrl(request.getImageUrl())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
+                .imageUrl(imageUrl)
                 .build();
 
-        return IdeaResponseDTO.CreateIdeaResponse.toCreateIdeaResponse(ideaRepository.save(idea));
+        // ✅ 저장
+        Idea savedIdea = ideaRepository.save(idea);
+
+        return IdeaResponseDTO.CreateIdeaResponse.toCreateIdeaResponse(savedIdea);
     }
 
     @Override

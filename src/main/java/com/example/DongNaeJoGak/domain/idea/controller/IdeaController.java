@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,11 +24,12 @@ public class IdeaController {
             summary = "아이디어 생성",
             description = "새로운 아이디어를 등록합니다."
     )
-    @PostMapping("/api/ideas")
+    @PostMapping(value = "/api/ideas", consumes = "multipart/form-data")
     public ApiResponse<IdeaResponseDTO.CreateIdeaResponse> createIdea(
-            @RequestBody IdeaRequestDTO.CreateIdeaRequest request) {
+            @RequestPart("request") IdeaRequestDTO.CreateIdeaRequest request,
+            @RequestPart("image") MultipartFile image) throws IOException {
 
-        IdeaResponseDTO.CreateIdeaResponse createIdeaResponse = ideaService.createIdea(request);
+        IdeaResponseDTO.CreateIdeaResponse createIdeaResponse = ideaService.createIdea(request, image);
 
         return ApiResponse.onSuccess(createIdeaResponse);
     }

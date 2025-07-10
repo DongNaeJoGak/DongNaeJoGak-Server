@@ -8,7 +8,6 @@ public class IdeaRequestDTO {
     public static class CreateIdeaRequest {
         private String title;
         private String content;
-        private String imageUrl;
         private Double latitude;
         private Double longitude;
     }
