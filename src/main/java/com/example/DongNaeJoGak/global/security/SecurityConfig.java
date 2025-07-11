@@ -79,7 +79,8 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173", // 프론트 dev 주소
                 "http://localhost:3000", // 다른 로컬 주소 (필요 시)
-                "http://dongnaejogak.kro.kr" // 추후 배포용 (필요 시)
+                "http://dongnaejogak.kro.kr", // 추후 배포용 (필요 시)
+                "https://dongnaejogak.kro.kr"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
