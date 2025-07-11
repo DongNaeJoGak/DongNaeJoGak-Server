@@ -1,7 +1,9 @@
 package com.example.DongNaeJoGak.domain.idea.controller;
 
+import com.example.DongNaeJoGak.domain.auth.annotation.AuthenticatedMember;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
 import com.example.DongNaeJoGak.domain.idea.service.IdeaService;
 import com.example.DongNaeJoGak.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,9 +25,10 @@ public class IdeaController {
     )
     @PostMapping("/api/ideas")
     public ApiResponse<IdeaResponseDTO.CreateIdeaResponse> createIdea(
+            @AuthenticatedMember Member member,
             @RequestBody IdeaRequestDTO.CreateIdeaRequest request) {
 
-        IdeaResponseDTO.CreateIdeaResponse createIdeaResponse = ideaService.createIdea(request);
+        IdeaResponseDTO.CreateIdeaResponse createIdeaResponse = ideaService.createIdea(request, member);
 
         return ApiResponse.onSuccess(createIdeaResponse);
     }

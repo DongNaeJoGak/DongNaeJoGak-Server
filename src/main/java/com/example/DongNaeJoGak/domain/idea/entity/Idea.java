@@ -57,7 +57,6 @@ public class Idea extends BaseEntity {
     private List<Comment> comments;
 
 
-
     public void setLikeNum(Long likeNum) {
         this.likeNum = likeNum;
     }
