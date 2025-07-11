@@ -3,10 +3,13 @@ package com.example.DongNaeJoGak.domain.idea.service;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
 import com.example.DongNaeJoGak.domain.idea.entity.Idea;
-import com.example.DongNaeJoGak.domain.idea.repository.IdeaReactionRepository;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaRepository;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.IdeaErrorStatus;
+import com.example.DongNaeJoGak.global.apiPayload.code.status.error.MemberErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.IdeaException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,17 +21,26 @@ import org.springframework.stereotype.Service;
 public class IdeaServiceImpl implements IdeaService {
 
     private final IdeaRepository ideaRepository;
-    private final IdeaReactionRepository ideaReactionRepository;
+    private final MemberRepository memberRepository;
 
     @Override
-    public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request) {
-        Idea idea = Idea.builder()
+    public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request, Member member) {
+
+        Idea.IdeaBuilder ideaBuilder = Idea.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .imageUrl(request.getImageUrl())
                 .latitude(request.getLatitude())
-                .longitude(request.getLongitude())
-                .build();
+                .longitude(request.getLongitude());
+
+        if (member != null) {
+            // 로그인한 사용자로 아이디어 생성
+            Member memberEntity = memberRepository.findById(member.getId()).orElseThrow(() -> new MemberException(MemberErrorStatus.NOT_FOUND));
+
+            ideaBuilder.member(memberEntity);
+        }
+
+        Idea idea = ideaBuilder.build();
 
         return IdeaResponseDTO.CreateIdeaResponse.toCreateIdeaResponse(ideaRepository.save(idea));
     }
