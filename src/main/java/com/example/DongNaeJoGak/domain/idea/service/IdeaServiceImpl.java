@@ -3,10 +3,14 @@ package com.example.DongNaeJoGak.domain.idea.service;
 import com.example.DongNaeJoGak.domain.idea.dto.request.IdeaRequestDTO;
 import com.example.DongNaeJoGak.domain.idea.dto.response.IdeaResponseDTO;
 import com.example.DongNaeJoGak.domain.idea.entity.Idea;
+import com.example.DongNaeJoGak.domain.idea.member.entity.Member;
+import com.example.DongNaeJoGak.domain.idea.member.repository.MemberRepository;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaReactionRepository;
 import com.example.DongNaeJoGak.domain.idea.repository.IdeaRepository;
 import com.example.DongNaeJoGak.global.apiPayload.code.status.error.IdeaErrorStatus;
+import com.example.DongNaeJoGak.global.apiPayload.code.status.error.MemberErrorStatus;
 import com.example.DongNaeJoGak.global.apiPayload.exception.IdeaException;
+import com.example.DongNaeJoGak.global.apiPayload.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,34 +25,39 @@ import java.io.IOException;
 public class IdeaServiceImpl implements IdeaService {
 
     private final IdeaRepository ideaRepository;
-    private final IdeaReactionRepository ideaReactionRepository;
-
+    private final MemberRepository memberRepository;
     private final S3Service s3Service;
 
     @Override
-    public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request, MultipartFile image) throws IOException {
+    public IdeaResponseDTO.CreateIdeaResponse createIdea(IdeaRequestDTO.CreateIdeaRequest request, MultipartFile image, Member member) throws IOException {
 
         // ✅ S3 업로드
         String imageUrl = s3Service.uploadFile(image);
 
-        // ✅ 엔티티 빌드 + 이미지 URL 세팅
-        Idea idea = Idea.builder()
+        // ✅ 엔티티 빌더
+        Idea.IdeaBuilder ideaBuilder = Idea.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
-                .imageUrl(imageUrl)
-                .build();
+                .imageUrl(imageUrl);
 
-        // ✅ 저장
-        Idea savedIdea = ideaRepository.save(idea);
+        // ✅ 멤버 연동
+        if (member != null) {
+            Member memberEntity = memberRepository.findById(member.getId())
+                    .orElseThrow(() -> new MemberException(MemberErrorStatus.NOT_FOUND));
+            ideaBuilder.member(memberEntity);
+        }
+
+        Idea savedIdea = ideaRepository.save(ideaBuilder.build());
 
         return IdeaResponseDTO.CreateIdeaResponse.toCreateIdeaResponse(savedIdea);
     }
 
     @Override
     public IdeaResponseDTO.DetailIdeaResponse getDetailIdea(Long ideaId) {
-        Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
+        Idea idea = ideaRepository.findById(ideaId)
+                .orElseThrow(() -> new IdeaException(IdeaErrorStatus.NOT_FOUND));
 
         return IdeaResponseDTO.DetailIdeaResponse.toDetailIdeaResponse(idea);
     }
@@ -83,6 +92,5 @@ public class IdeaServiceImpl implements IdeaService {
 
         return IdeaResponseDTO.ListIdeaResponse.toListIdeaResponse(ideaSlice);
     }
-
 
 }
